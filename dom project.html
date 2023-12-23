@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart</title>
+  <style>
+    /* Add your styles here */
+    .cart-item {
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+    .like-btn {
+      cursor: pointer;
+      color: #aaa;
+    }
+    .liked {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cart">
+    <!-- Example Cart Items -->
+    <div class="cart-item" data-id="1">
+      <span>Item 1</span>
+      <button class="quantity-btn" onclick="adjustQuantity(1, -1)">-</button>
+      <span class="quantity">1</span>
+      <button class="quantity-btn" onclick="adjustQuantity(1, 1)">+</button>
+      <span class="like-btn" onclick="toggleLike(1)">❤️</span>
+      <button onclick="deleteItem(1)">Delete</button>
+      <span class="price">$10</span>
+    </div>
+
+    <div class="cart-item" data-id="2">
+      <span>Item 2</span>
+      <button class="quantity-btn" onclick="adjustQuantity(2, -1)">-</button>
+      <span class="quantity">1</span>
+      <button class="quantity-btn" onclick="adjustQuantity(2, 1)">+</button>
+      <span class="like-btn" onclick="toggleLike(2)">❤️</span>
+      <button onclick="deleteItem(2)">Delete</button>
+      <span class="price">$20</span>
+    </div>
+
+    <!-- Add more items as needed -->
+
+    <!-- Total Price -->
+    <div id="total-price">Total: $30</div>
+  </div>
+
+  <script>
+    // Add your JavaScript code here
+    function adjustQuantity(itemId, amount) {
+      var item = document.querySelector('.cart-item[data-id="' + itemId + '"]');
+      var quantityElement = item.querySelector('.quantity');
+      var quantity = parseInt(quantityElement.textContent) + amount;
+
+      if (quantity >= 0) {
+        quantityElement.textContent = quantity;
+        updateTotalPrice();
+      }
+    }
+
+    function deleteItem(itemId) {
+      var item = document.querySelector('.cart-item[data-id="' + itemId + '"]');
+      item.remove();
+      updateTotalPrice();
+    }
+
+    function toggleLike(itemId) {
+      var item = document.querySelector('.cart-item[data-id="' + itemId + '"]');
+      var likeBtn = item.querySelector('.like-btn');
+      likeBtn.classList.toggle('liked');
+    }
+
+    function updateTotalPrice() {
+      var totalPrice = 0;
+      var items = document.querySelectorAll('.cart-item');
+      
+      items.forEach(function(item) {
+        var quantity = parseInt(item.querySelector('.quantity').textContent);
+        var price = parseInt(item.querySelector('.price').textContent.slice(1));
+        totalPrice += quantity * price;
+      });
+
+      document.getElementById('total-price').textContent = 'Total: $' + totalPrice;
+    }
+  </script>
+
+</body>
+</html>
